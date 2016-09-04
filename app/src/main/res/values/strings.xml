@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WebserverClient</string>
+    <string name="refresh_ip">Refresh data</string>
+</resources>
