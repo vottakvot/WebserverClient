@@ -20,7 +20,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-class DownloadFile extends AsyncTask<String, String, String> {
+class DownloadFile extends AsyncTask<String, Integer, String> {
 
     private Context context = null;
     private ProgressDialog progressDialog = null;
@@ -37,7 +37,7 @@ class DownloadFile extends AsyncTask<String, String, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        //progressDialog.show();
+        progressDialog.show();
         button.setEnabled(false);
     }
 
@@ -59,8 +59,10 @@ class DownloadFile extends AsyncTask<String, String, String> {
 
                 StringBuffer buffer = new StringBuffer();
                 String line = "";
+                int i = 0;
                 while ((line = reader.readLine()) != null) {
                     buffer.append(line);
+                    publishProgress(i++);
                 }
 
                 resultJson = buffer.toString();
@@ -88,8 +90,8 @@ class DownloadFile extends AsyncTask<String, String, String> {
         return resultJson;
     }
 
-    protected void onProgressUpdate(String... progress) {
-        //progressDialog.setProgress(Integer.parseInt(progress[0]));
+    protected void onProgressUpdate(Integer... progress) {
+        progressDialog.setProgress(progress[0]);
     }
 
     @Override
@@ -111,6 +113,6 @@ class DownloadFile extends AsyncTask<String, String, String> {
 
         progressDialog.hide();
         button.setEnabled(true);
-        Toast.makeText(context, "Download complite!", Toast.LENGTH_SHORT);
+        Toast.makeText(context, "Download complite!", Toast.LENGTH_LONG);
     }
 }

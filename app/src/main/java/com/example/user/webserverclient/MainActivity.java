@@ -3,6 +3,7 @@ package com.example.user.webserverclient;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +16,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements Button.OnClickListener{
+public class MainActivity
+        extends AppCompatActivity
+        implements Button.OnClickListener,
+                    ProgressDialog.OnDismissListener {
     public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
     public static final String SITE_LINK = "http://testsimpleapps.sytes.net/tools/androidclient";
 
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     private View header = null;
     private Button button = null;
     private ProgressDialog progressDialog = null;
+    private DownloadFile downloadFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +68,10 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
 
     private Dialog createProgressDialog() {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Downloading file..");
+        progressDialog.setMessage("Downloading data..");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(true);
+        progressDialog.setOnDismissListener(this);
         return progressDialog;
     }
 
@@ -77,8 +83,15 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.refresh_ip_list :
-                new DownloadFile(this, progressDialog, button, ipListAdapter).execute(SITE_LINK);
+                downloadFile = new DownloadFile(this, progressDialog, button, ipListAdapter);
+                downloadFile.execute(SITE_LINK);
                 break;
         }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialogInterface) {
+        if(downloadFile.cancel(true))
+            button.setEnabled(true);
     }
 }
