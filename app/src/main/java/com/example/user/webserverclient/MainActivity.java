@@ -53,13 +53,6 @@ public class MainActivity
         ((TextView)header.findViewById(R.id.hostIP)).setText("Host IP");
         ((TextView)header.findViewById(R.id.dateTime)).setText("Date");
 
-        for(int i = 0; i < 100; i++){
-            DataUnit dataUnit = new DataUnit(Integer.toString(new Random().nextInt()), Integer.toString(new Random().nextInt()));
-            dataUnit.setId(Integer.toString(new Random().nextInt()));
-            dataUnit.setDateIn(Integer.toString(new Random().nextInt()));
-            arrayDataUnit.add(dataUnit);
-        }
-
         ipListAdapter = new IpListAdapter(this, arrayDataUnit);
         ipList.addHeaderView(header);
         ipList.setAdapter(ipListAdapter);
