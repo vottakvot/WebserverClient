@@ -8,6 +8,11 @@ public class DataUnit {
 
     private static final SimpleDateFormat formatterSQLDateTime = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
 
+    public static final String ID = "id";
+    public static final String ROUTER_IP = "routerIP";
+    public static final String HOST_IP = "hostIP";
+    public static final String DATE_IN = "dateIn";
+
     public DataUnit(String routerIP, String hostIP){
         this.routerIP = routerIP;
         this.hostIP = hostIP;

@@ -1,23 +1,31 @@
 package com.example.user.webserverclient;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Button.OnClickListener{
+    public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
+    public static final String SITE_LINK = "http://testsimpleapps.sytes.net/tools/androidclient";
 
-    ListView ipList = null;
-    IpListAdapter ipListAdapter = null;
-    LayoutInflater layoutInflater = null;
-    ArrayList<DataUnit> arrayDataUnit = null;
-    View header = null;
+    private ListView ipList = null;
+    private IpListAdapter ipListAdapter = null;
+    private LayoutInflater layoutInflater = null;
+    private ArrayList<DataUnit> arrayDataUnit = null;
+    private View header = null;
+    private Button button = null;
+    private ProgressDialog progressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(){
         ipList = (ListView)findViewById(R.id.ip_list);
+        button = (Button)findViewById(R.id.refresh_ip_list);
+        button.setOnClickListener(this);
+        createProgressDialog();
         arrayDataUnit = new ArrayList<DataUnit>();
         layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         header = layoutInflater.inflate(R.layout.ip_list_item, null);
+
         ((TextView)header.findViewById(R.id.numberRecord)).setText("N");
         ((TextView)header.findViewById(R.id.routerIP)).setText("Router IP");
         ((TextView)header.findViewById(R.id.hostIP)).setText("Host IP");
@@ -46,5 +58,27 @@ public class MainActivity extends AppCompatActivity {
         ipListAdapter = new IpListAdapter(this, arrayDataUnit);
         ipList.addHeaderView(header);
         ipList.setAdapter(ipListAdapter);
+        createProgressDialog();
+    }
+
+    private Dialog createProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Downloading file..");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCancelable(false);
+        return progressDialog;
+    }
+
+    public static String getDataDir(final Context context) throws Exception {
+        return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).applicationInfo.dataDir;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.refresh_ip_list :
+                new DownloadFile(this, progressDialog, button, ipListAdapter).execute(SITE_LINK);
+                break;
+        }
     }
 }

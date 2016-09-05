@@ -31,6 +31,11 @@ public class IpListAdapter
         this.arrayDataUnit = arrayDataUnit;
     }
 
+    public void setNewDataForAdapter(ArrayList<DataUnit> arrayDataUnit){
+        this.arrayDataUnit = arrayDataUnit;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return (arrayDataUnit != null)? arrayDataUnit.size() : 0;
