@@ -101,7 +101,7 @@ class DownloadFile extends AsyncTask<String, Integer, String> {
             ArrayList<DataUnit> arrayDataUnit = new ArrayList<>();
             for (int i = 0; i < dataJsonObj.length(); i++) {
                 JSONObject row = dataJsonObj.getJSONObject(i);
-                DataUnit dataUnit = new DataUnit(row.getString(DataUnit.ROUTER_IP), row.getString(DataUnit.HOST_IP));
+                DataUnit dataUnit = new DataUnit(row.getString(DataUnit.ID), row.getString(DataUnit.ROUTER_IP), row.getString(DataUnit.HOST_IP), row.getString(DataUnit.DATE_IN));
                 dataUnit.setId(row.getString(DataUnit.ID));
                 dataUnit.setDateIn(row.getString(DataUnit.DATE_IN));
                 arrayDataUnit.add(dataUnit);

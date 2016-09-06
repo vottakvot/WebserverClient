@@ -18,10 +18,23 @@
         android:layout_marginBottom="20dp"
         android:text="@string/refresh_ip"/>
 
+    <TextView
+        style="@style/TextCommon"
+        android:id="@+id/count_name"
+        android:layout_below="@id/refresh_ip_list"
+        android:text="@string/count_name"/>
+
+    <TextView
+        style="@style/TextCommon"
+        android:id="@+id/count_count"
+        android:layout_toRightOf="@id/count_name"
+        android:layout_below="@id/refresh_ip_list"
+        android:text="@string/count_count"/>
+
     <ListView
         style="@style/ListCommon"
         android:id="@+id/ip_list"
-        android:layout_below="@id/refresh_ip_list"
+        android:layout_below="@id/count_name"
         android:background="@drawable/drawable_borders"/>
 
 </RelativeLayout>

@@ -23,17 +23,25 @@ public class IpListAdapter
     private final Context context;
     private final LayoutInflater inflater;
     private ArrayList<DataUnit> arrayDataUnit = null;
+    private TextView textView = null;
 
-    IpListAdapter(Context context, ArrayList<DataUnit> arrayDataUnit) {
+    IpListAdapter(Context context, ArrayList<DataUnit> arrayDataUnit, TextView textView) {
         super();
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.arrayDataUnit = arrayDataUnit;
+        this.textView = textView;
     }
 
     public void setNewDataForAdapter(ArrayList<DataUnit> arrayDataUnit){
         this.arrayDataUnit = arrayDataUnit;
+        String srt = Integer.toString(arrayDataUnit.size());
+        textView.setText(Integer.toString(arrayDataUnit.size()));
         notifyDataSetChanged();
+    }
+
+    public ArrayList<DataUnit> getData(){
+        return arrayDataUnit;
     }
 
     @Override
